@@ -679,10 +679,10 @@
             </span>
         </xsl:if>
 
-<!--Hide 690 and 630 tag here RT 58464 joy 2019-07-18 -->
-        <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655) and not(@tag=690) and not(@tag=630)]">
+<!--Hide 630 tag here RT 58464 joy 2019-07-18 -->
+        <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655) and not(@tag=630)]">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
-            <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)][not(@tag=690)][not(@tag=630)]">
+            <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)][not(@tag=630)]">
             <a>
             <xsl:choose>
             <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
