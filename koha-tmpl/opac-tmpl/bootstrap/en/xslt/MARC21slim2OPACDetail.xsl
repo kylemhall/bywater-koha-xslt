@@ -773,6 +773,63 @@
             </span>
         </xsl:if>
 
+<!-- Adding loop to show 630 tag as Range: joy 7/18/2019 rt 58464-->
+            <xsl:if test="marc:datafield[(@tag=630)]">
+            <span class="results_summary subjects"><span class="label">Range(s): </span>
+                <xsl:for-each select="marc:datafield[(@tag=630)]">
+            <span property="keywords">
+            <a>
+            <xsl:choose>
+            <xsl:when test="marc:subfield[@code=9] and $UseAuthoritiesForTracings='1'">
+                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=an:<xsl:value-of select="marc:subfield[@code=9]"/></xsl:attribute>
+            </xsl:when>
+            <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
+            <xsl:when test="$TraceSubjectSubdivisions='1'">
+                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=<xsl:call-template name="subfieldSelectSubject">
+                        <xsl:with-param name="codes">abcdfgklmnopqrstvxyz</xsl:with-param>
+                        <xsl:with-param name="delimeter"> AND </xsl:with-param>
+                        <xsl:with-param name="prefix">(su<xsl:value-of select="$SubjectModifier"/>:<xsl:value-of select="$TracingQuotesLeft"/></xsl:with-param>
+                        <xsl:with-param name="suffix"><xsl:value-of select="$TracingQuotesRight"/>)</xsl:with-param>
+                    </xsl:call-template>
+                </xsl:attribute>
+            </xsl:when>
+                <!-- #1807 Strip unwanted parenthesis from subjects for searching -->
+            <xsl:otherwise>
+                <xsl:attribute name="href">/cgi-bin/koha/opac-search.pl?q=su<xsl:value-of select="$SubjectModifier"/>:<xsl:value-of select="$TracingQuotesLeft"/><xsl:value-of select="translate(marc:subfield[@code='a'],'()','')"/><xsl:value-of select="$TracingQuotesRight"/></xsl:attribute>
+            </xsl:otherwise>
+            </xsl:choose>
+            <xsl:call-template name="chopPunctuation">
+                <xsl:with-param name="chopString">
+                    <xsl:call-template name="subfieldSelect">
+                        <xsl:with-param name="codes">abcdfgklmnopqrstvxyz</xsl:with-param>
+                        <xsl:with-param name="subdivCodes">vxyz</xsl:with-param>
+                        <xsl:with-param name="subdivDelimiter">-- </xsl:with-param>
+                    </xsl:call-template>
+                </xsl:with-param>
+            </xsl:call-template>
+            </a>
+            </span>
+            <xsl:if test="marc:subfield[@code=9]">
+                <a class='authlink'>
+                    <xsl:attribute name="href">/cgi-bin/koha/opac-authoritiesdetail.pl?authid=<xsl:value-of select="marc:subfield[@code=9]"/></xsl:attribute>
+                    <xsl:element name="img">
+                        <xsl:attribute name="src">/opac-tmpl/<xsl:value-of select="$theme"/>/images/filefind.png</xsl:attribute>
+                        <xsl:attribute name="style">vertical-align:middle</xsl:attribute>
+                        <xsl:attribute name="height">15</xsl:attribute>
+                        <xsl:attribute name="width">15</xsl:attribute>
+                    </xsl:element>
+                </a>
+            </xsl:if>
+            <xsl:choose>
+            <xsl:when test="position()=last()"></xsl:when>
+            <xsl:otherwise> | </xsl:otherwise>
+            </xsl:choose>
+
+            </xsl:for-each>
+            </span>
+        </xsl:if>
+<!-- End of 630 loop -->
+
             <!-- Genre/Form -->
             <xsl:if test="marc:datafield[@tag=655]">
                 <span class="results_summary genre"><span class="label">Genre/Form: </span>
