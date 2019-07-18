@@ -717,10 +717,10 @@
                     </xsl:for-each>
                 </span>
             </xsl:if>
-<!-- Updating Subject loops to hide 690 tag -->
-            <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655) and not(@tag=690)]">
+<!-- Updating Subject loops to hide 630 and 690 tag joy 7/18/2019 rt 58464-->
+            <xsl:if test="marc:datafield[substring(@tag, 1, 1) = '6' and not(@tag=655) and not(@tag=690) and not(@tag=630)]">
             <span class="results_summary subjects"><span class="label">Subject(s): </span>
-                <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)][not(@tag=690)]">
+                <xsl:for-each select="marc:datafield[substring(@tag, 1, 1) = '6'][not(@tag=655)][not(@tag=690)][not(@tag=630)]">
             <span property="keywords">
             <a>
             <xsl:choose>
